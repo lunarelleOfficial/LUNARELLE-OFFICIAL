@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Lunarelle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --peach: #ffe5d4;
+      --pink: #fcd3d3;
+      --purple: #6b2e8e;
+      --red: #c44545;
+      --white: #ffffff;
+      --black: #000000;
+      --gray: #f5f5f5;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(135deg, var(--peach), var(--pink));
+      color: var(--black);
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+      background: var(--white);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .brand {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      color: var(--purple);
+    }
+
+    .checkout-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: var(--purple);
+      margin-bottom: 1rem;
+    }
+
+    .cart-items {
+      margin-bottom: 2rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 0;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      text-align: right;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    form button {
+      background: var(--red);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background: var(--purple);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Lunarelle ✨</div>
+    <div>Your checkout</div>
+  </header>
+
+  <div class="checkout-container">
+    <h2>Your Order Summary</h2>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="total" id="totalAmount"></div>
+
+    <h2>Shipping Information</h2>
+    <form id="checkout-form">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      <input type="text" name="province" placeholder="Province" required>
+      <input type="text" name="city" placeholder="City" required>
+      <textarea name="address" rows="4" placeholder="Complete Address" required></textarea>
+
+      <input type="hidden" name="order_summary" id="orderSummaryField">
+      <input type="hidden" name="total_price" id="totalPriceField">
+
+      <button type="submit" id="submitBtn">Place Order</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 Lunarelle. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    emailjs.init("PPOSWS-jDO2Rj6QKq");
+
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cartData.length === 0) {
+      alert("Cart is empty. Redirecting to home.");
+      window.location.href = "index.html";
+    }
+
+    const cartItemsContainer = document.getElementById("cartItems");
+    const totalAmountDiv = document.getElementById("totalAmount");
+    const orderSummaryField = document.getElementById("orderSummaryField");
+    const totalPriceField = document.getElementById("totalPriceField");
+
+    let total = 0;
+    let orderLines = [];
+
+    cartData.forEach(item => {
+      const line = document.createElement("div");
+      line.className = "cart-item";
+      line.innerHTML = `<span>${item.name} x${item.quantity}</span><span>₨${(item.price * item.quantity).toLocaleString()}</span>`;
+      cartItemsContainer.appendChild(line);
+
+      total += item.price * item.quantity;
+      orderLines.push(`${item.name} x${item.quantity}`);
+    });
+
+    totalAmountDiv.innerText = `Total: ₨${total.toLocaleString()}`;
+    orderSummaryField.value = orderLines.join("\n");
+    totalPriceField.value = `₨${total.toLocaleString()}`;
+
+    document.getElementById("checkout-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      btn.textContent = "Placing Order...";
+
+      emailjs.sendForm("service_0ig5i9f", "template_tunb1rm", this)
+        .then(() => {
+          alert("✅ Order placed successfully!");
+          localStorage.removeItem("cart");
+          window.location.href = "index.html";
+        })
+        .catch(err => {
+          alert("❌ Failed to send order. Please try again.");
+          console.error("EmailJS Error:", err);
+          btn.disabled = false;
+          btn.textContent = "Place Order";
+        });
+    });
+  </script>
+</body>
+</html>

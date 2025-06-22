@@ -1,0 +1,454 @@
+<!-- ✅ FULL FINAL INDEX.HTML - LUNARELLE -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lunarelle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --peach: #ffe5d4;
+      --pink: #fcd3d3;
+      --purple: #6b2e8e;
+      --red: #c44545;
+      --black: #000;
+      --white: #fff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(45deg, var(--peach), var(--pink));
+      color: var(--black);
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 1rem 0.5rem;
+    }
+
+    .brand {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      background: linear-gradient(to right, var(--purple), var(--red));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      user-select: text;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      user-select: text;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      background: var(--peach);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--black);
+      font-weight: bold;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+
+    nav a:hover {
+      color: var(--purple);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .hero img {
+      width: 250px;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-top: 1rem;
+    }
+
+    .hero p {
+      margin-top: 0.5rem;
+    }
+
+    .hero button {
+      margin-top: 1.2rem;
+      background: var(--purple);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    .hero button:hover {
+      background: var(--red);
+    }
+
+    .watch-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .watch-card {
+      background: var(--white);
+      width: 240px;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .watch-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .watch-card h4 {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .watch-card p {
+      font-size: 0.9rem;
+    }
+
+    .watch-card .price {
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    .watch-card button {
+      background: var(--purple);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 5px;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .watch-card button:hover {
+      background: var(--red);
+    }
+
+    #cartButton {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--purple);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+      user-select: none;
+    }
+
+    #checkoutLink {
+      position: fixed;
+      top: 3.3rem;
+      right: 1rem;
+      background: var(--red);
+      color: white;
+      text-decoration: none;
+      padding: 0.4rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 999;
+    }
+
+    #checkoutLink:hover {
+      background: var(--purple);
+    }
+
+    #cartPanel {
+      position: fixed;
+      top: 5.5rem;
+      right: 1rem;
+      background: var(--white);
+      padding: 1rem;
+      width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 998;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item input {
+      width: 40px;
+      margin: 0 5px;
+    }
+
+    .admin-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .admin-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .admin-box input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .admin-box button {
+      background: var(--purple);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .admin-box button:hover {
+      background: var(--red);
+    }
+
+    .close-admin {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Lunarelle ✨</div>
+    <div class="tagline">For the moments that matter</div>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">Collections</a>
+    <a href="#">Orders</a>
+  </nav>
+
+  <button id="cartButton" onclick="toggleCart()">🛒 Cart</button>
+  <a id="checkoutLink" href="checkout.html">Proceed to Checkout</a>
+  <div id="cartPanel"></div>
+
+  <section class="hero">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Wristwatch_%28PSF%29.png" alt="Watch">
+    <h2>Memories Matter</h2>
+    <p>Your memories; just a click away</p>
+    <button>View Collection</button>
+  </section>
+
+  <section class="watch-grid" id="watchGrid"></section>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-box" id="adminLoginBox">
+      <button class="close-admin" onclick="closeAdminPanel()">×</button>
+      <h3>Admin Login</h3>
+      <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+      <button onclick="validateAdmin()">Login</button>
+    </div>
+
+    <div class="admin-box hidden" id="adminControls">
+      <button class="close-admin" onclick="closeAdminPanel()">×</button>
+      <h3>Admin Panel</h3>
+      <input type="text" id="watchName" placeholder="Watch Name">
+      <input type="number" id="price" placeholder="Original Price">
+      <input type="number" id="discount" placeholder="Discount % (optional)">
+      <input type="number" id="quantity" placeholder="Stock Quantity">
+      <input type="file" id="image" accept="image/*">
+      <button onclick="addWatch()">Add Watch</button>
+      <hr>
+      <h4>Change Password</h4>
+      <input type="password" id="newPassword" placeholder="New Admin Password">
+      <button onclick="changePassword()">Change Password</button>
+    </div>
+  </div>
+
+  <script>
+    let adminUnlocked = false;
+    let adminPassword = "lunarelle2025";
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function toggleCart() {
+      const panel = document.getElementById("cartPanel");
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
+      updateCartPanel();
+    }
+
+    function updateCartPanel() {
+      const panel = document.getElementById("cartPanel");
+      panel.innerHTML = "";
+
+      if (cartItems.length === 0) {
+        panel.innerHTML = "Cart is empty.";
+        document.getElementById("checkoutLink").style.display = "none";
+        return;
+      }
+
+      cartItems.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <span>${item.name}</span>
+          <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
+          <span>₨${item.price * item.quantity}</span>
+          <button onclick="removeFromCart(${index})">x</button>
+        `;
+        panel.appendChild(div);
+      });
+
+      document.getElementById("checkoutLink").style.display = "inline-block";
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+
+    function updateQuantity(index, value) {
+      const qty = Math.max(1, parseInt(value));
+      cartItems[index].quantity = qty;
+      updateCartPanel();
+    }
+
+    function removeFromCart(index) {
+      cartItems.splice(index, 1);
+      updateCartPanel();
+    }
+
+    function addWatchToCart(name, price) {
+      const existing = cartItems.find(item => item.name === name);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cartItems.push({ name, price, quantity: 1 });
+      }
+      updateCartPanel();
+    }
+
+    function validateAdmin() {
+      const input = document.getElementById("adminPassword").value;
+      if (input === adminPassword) {
+        adminUnlocked = true;
+        document.getElementById("adminLoginBox").classList.add("hidden");
+        document.getElementById("adminControls").classList.remove("hidden");
+      } else {
+        alert("Incorrect Password");
+      }
+    }
+
+    function closeAdminPanel() {
+      document.getElementById("adminPanel").style.display = "none";
+    }
+
+    function changePassword() {
+      const newPass = document.getElementById("newPassword").value;
+      if (newPass) {
+        adminPassword = newPass;
+        alert("Password changed.");
+      }
+    }
+
+    function addWatch() {
+      const name = document.getElementById("watchName").value;
+      const price = parseFloat(document.getElementById("price").value);
+      const discount = parseFloat(document.getElementById("discount").value) || 0;
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const imageFile = document.getElementById("image").files[0];
+
+      if (!name || !price || !imageFile || isNaN(quantity)) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const discountedPrice = Math.round(price - (price * discount / 100));
+        const card = document.createElement("div");
+        card.className = "watch-card";
+        card.innerHTML = `
+          <img src="${e.target.result}" alt="${name}">
+          <h4>${name}</h4>
+          <p class="price">₨${discountedPrice.toLocaleString()}</p>
+          ${discount ? `<p><s>₨${price.toLocaleString()}</s></p>` : ''}
+          <button onclick="addWatchToCart('${name}', ${discountedPrice})">Add to Cart</button>
+        `;
+        card.addEventListener('click', (ev) => {
+          if (adminUnlocked && ev.altKey) {
+            if (confirm(`Delete "${name}"?`)) card.remove();
+          }
+        });
+        document.getElementById("watchGrid").appendChild(card);
+      };
+      reader.readAsDataURL(imageFile);
+    }
+
+    document.addEventListener("keydown", function(e) {
+      if (e.ctrlKey && e.shiftKey && e.key === "H") {
+        const admin = document.getElementById("adminPanel");
+        admin.style.display = admin.style.display === "flex" ? "none" : "flex";
+      }
+      if (e.key === "Enter" && !adminUnlocked && document.getElementById("adminPanel").style.display === "flex") {
+        validateAdmin();
+      }
+    });
+
+    updateCartPanel();
+  </script>
+</body>
+</html>
